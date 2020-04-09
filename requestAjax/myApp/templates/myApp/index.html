@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Request</title>
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    {% block style %}
+    {% endblock style %}
+</head>
+<body>
+    <body>
+
+    <form method="POST" id="draw-form">{% csrf_token %}
+
+        <input id="totalNumbers" type="number"><br><br><br>
+        <input id="limit" type="number"><br><br><br>
+        <button type="submit">Sortear</button>
+    </form>
+        {% block content %}
+        {% endblock content %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).on('submit','#draw-form', function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/draw/',
+                    data: {
+                        totalNumbers: $('#totalNumbers').val(),
+                        limit: $('#limit').val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function(){
+                        alert('NUMBER DRAWED!')
+                    }
+                });
+            });
+        </script>
+        {% block javascript %}
+        {% endblock javascript %}
+    </body>
+</body>
+</html>
